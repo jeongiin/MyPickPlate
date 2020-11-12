@@ -16,17 +16,18 @@ import kotlinx.android.synthetic.main.activity_uploaded_food.*
 class UploadedFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private lateinit var photoImage: Bitmap
-    private lateinit var foodLabel: String
+    private lateinit var labelList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uploaded_food)
         photoImage = intent.getParcelableExtra("image")
-        foodLabel = intent.getStringExtra("label")
+        labelList = intent.getStringArrayListExtra("label")
+        Log.d("트라이", labelList.toString())
 
         if (intent.hasExtra("image") || intent.hasExtra("label")) {
             iv_food.setImageBitmap(photoImage)
-            tv_food_name.text = foodLabel
+            tv_food_name.text = labelList[0]
         } else {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
         }
