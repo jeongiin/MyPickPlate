@@ -16,25 +16,21 @@ import kotlinx.android.synthetic.main.activity_uploaded_food.*
 class UploadedFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private lateinit var photoImage: Bitmap
-    private lateinit var classifier: ImageClassifier
+    private lateinit var foodLabel: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uploaded_food)
-        classifier = ImageClassifier(getAssets()) //이미지 분류기
         photoImage = intent.getParcelableExtra("image")
+        foodLabel = intent.getStringExtra("label")
 
-        if (intent.hasExtra("image")) {
+        if (intent.hasExtra("image") || intent.hasExtra("label")) {
             iv_food.setImageBitmap(photoImage)
+            tv_food_name.text = foodLabel
+        } else {
+            Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
         }
-        else { Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show() }
 
 
-        classifier.recognizeImage(photoImage).subscribeBy(
-            onSuccess = {
-                tv_food_name.text = it.toString()
-            }
-        )
-        Log.d("트라이", "classifier")
     }
 }
