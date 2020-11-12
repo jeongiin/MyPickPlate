@@ -18,12 +18,14 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
+import com.example.myapplication.model.Result
 
 class UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
+    private val labelList = ArrayList<String>()
     private lateinit var photoImage: Bitmap
     private lateinit var classifier: ImageClassifier
-    private lateinit var foodLabel : String
+    private lateinit var label : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,17 +60,19 @@ class UploadFoodActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK)
             try {
+
                 val stream = contentResolver!!.openInputStream(data!!.getData()!!)
                 if (::photoImage.isInitialized) photoImage.recycle()
                 photoImage = BitmapFactory.decodeStream(stream)
                 photoImage = Bitmap.createScaledBitmap(photoImage,
                     SetKey.INPUT_SIZE,
                     SetKey.INPUT_SIZE, false)
-                
+
 
                 classifier.recognizeImage(photoImage).subscribeBy(
                     onSuccess = {
-                       foodLabel = it.toString()
+                        for( i in 0 until it.size)
+                            labelList.add(i,it[i].toString())
                     }
                 )
                 Log.d("트라이", "classifier")
@@ -77,7 +81,7 @@ class UploadFoodActivity : AppCompatActivity() {
                 // Intent uploaded food activity
                 var intent = Intent(this, UploadedFoodActivity::class.java)
                 intent.putExtra("image",photoImage)
-                intent.putExtra("label",foodLabel)
+                intent.putStringArrayListExtra("label",labelList)
                 startActivity(intent)
 
             } catch (e: FileNotFoundException) {

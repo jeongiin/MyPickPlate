@@ -95,17 +95,17 @@ private fun loadModelFile(assets: AssetManager, modelFilename: String): MappedBy
                     // Intentionally reversed to put high confidence at the head of the queue.
                     java.lang.Float.compare(rhs.confidence!!, lhs.confidence!!)
                 })
-            Log.d("트라이","compare 성공적")
+
             for (i in labels.indices) {
                 pq.add(Result("" + i, if (labels.size > i) labels[i] else "unknown", labelProb[0][i].toFloat(), null))
             }
-            Log.d("트라이","priority queue에 add 성공적")
+
 
             val recognitions = ArrayList<Result>()
-            Log.d("트라이",recognitions.toString())
+
 
             val recognitionsSize = Math.min(pq.size, MAX_RESULTS)
-            Log.d("트라이",recognitionsSize.toString())
+
 
             for (i in 0 until recognitionsSize) recognitions.add(pq.poll())
 
