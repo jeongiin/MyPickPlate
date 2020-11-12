@@ -11,15 +11,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.RecommedFoodActivity"></activity>
         <activity android:name=".view.ViewFoodActivity" />
-        <activity android:name=".view.UploadFoodActivity" />
-        <activity android:name=".view.UploadedFoodActivity" />
-        <activity android:name=".view.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".view.UploadFoodActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".view.UploadedFoodActivity" />
+        <activity android:name=".view.MainActivity"/>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.example.myapplication.utils.ImageClassifier
 import com.example.myapplication.utils.SetKey
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
 
 class UploadFoodActivity : AppCompatActivity() {
@@ -26,9 +27,9 @@ class UploadFoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_food)
-        classifier = ImageClassifier(getAssets())
+        classifier = ImageClassifier(getAssets()) //이미지 분류기
         checkPermission()
-        imageResult.setOnClickListener {
+        iv_none.setOnClickListener {
             choosePicture()
         }
     }
@@ -62,14 +63,20 @@ class UploadFoodActivity : AppCompatActivity() {
                 photoImage = Bitmap.createScaledBitmap(photoImage,
                     SetKey.INPUT_SIZE,
                     SetKey.INPUT_SIZE, false)
-                imageResult.setImageBitmap(photoImage)
 
-                classifier.recognizeImage(photoImage).subscribeBy(
-                    onSuccess = {
-                        txtResult.text = it.toString()
-                    }
-                )
-                Log.d("트라이", "classifier")
+                // Intent uploaded food activity
+                var intent = Intent(this, UploadedFoodActivity::class.java)
+                intent.putExtra("image",photoImage)
+                startActivity(intent)
+
+//                imageResult.setImageBitmap(photoImage)
+//
+//                classifier.recognizeImage(photoImage).subscribeBy(
+//                    onSuccess = {
+//                        txtResult.text = it.toString()
+//                    }
+//                )
+//                Log.d("트라이", "classifier")
 
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
