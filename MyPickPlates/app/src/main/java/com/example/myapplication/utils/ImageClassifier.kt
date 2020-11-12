@@ -100,11 +100,15 @@ private fun loadModelFile(assets: AssetManager, modelFilename: String): MappedBy
                 pq.add(Result("" + i, if (labels.size > i) labels[i] else "unknown", labelProb[0][i].toFloat(), null))
             }
             Log.d("트라이","priority queue에 add 성공적")
+
             val recognitions = ArrayList<Result>()
             Log.d("트라이",recognitions.toString())
+
             val recognitionsSize = Math.min(pq.size, MAX_RESULTS)
             Log.d("트라이",recognitionsSize.toString())
+
             for (i in 0 until recognitionsSize) recognitions.add(pq.poll())
+
             return@flatMap Single.just(recognitions)
         }
     }
