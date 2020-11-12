@@ -23,6 +23,7 @@ class UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private lateinit var photoImage: Bitmap
     private lateinit var classifier: ImageClassifier
+    private lateinit var foodLabel : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,20 +64,21 @@ class UploadFoodActivity : AppCompatActivity() {
                 photoImage = Bitmap.createScaledBitmap(photoImage,
                     SetKey.INPUT_SIZE,
                     SetKey.INPUT_SIZE, false)
+                
+
+                classifier.recognizeImage(photoImage).subscribeBy(
+                    onSuccess = {
+                       foodLabel = it.toString()
+                    }
+                )
+                Log.d("트라이", "classifier")
+
 
                 // Intent uploaded food activity
                 var intent = Intent(this, UploadedFoodActivity::class.java)
                 intent.putExtra("image",photoImage)
+                intent.putExtra("label",foodLabel)
                 startActivity(intent)
-
-//                imageResult.setImageBitmap(photoImage)
-//
-//                classifier.recognizeImage(photoImage).subscribeBy(
-//                    onSuccess = {
-//                        txtResult.text = it.toString()
-//                    }
-//                )
-//                Log.d("트라이", "classifier")
 
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
