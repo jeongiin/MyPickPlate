@@ -75,6 +75,7 @@ class UploadFoodActivity : AppCompatActivity() {
                             labelList.add(i,it[i].toString())
                     }
                 )
+
                 Log.d("트라이", "classifier")
 
 

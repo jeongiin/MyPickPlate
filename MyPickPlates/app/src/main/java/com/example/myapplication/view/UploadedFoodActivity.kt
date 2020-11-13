@@ -1,5 +1,6 @@
 package com.example.myapplication.view
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Parcelable
@@ -19,7 +20,10 @@ class UploadedFoodActivity : AppCompatActivity() {
     private lateinit var photoImage: Bitmap
     private lateinit var labelList: ArrayList<String>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    // SAVE 버튼 --> 클릭 시 음식 사진, 음식 사진 id, 음식 이름을 배열에 저장 --> 객체 생성 해야 할듯
+    // editText 버튼 --> 추측 된 이름이 마음에 들지 않을 경우 작명 가능
+
+   override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uploaded_food)
         photoImage = intent.getParcelableExtra("image")
@@ -33,6 +37,8 @@ class UploadedFoodActivity : AppCompatActivity() {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
         }
 
+        // Intent uploaded food activity
+        var intent = Intent(this, RecommedFoodActivity::class.java)
 
         btn_rename.setOnClickListener{
             labelidx ++
@@ -41,10 +47,14 @@ class UploadedFoodActivity : AppCompatActivity() {
             else
                 labelidx = 0
                 tv_food_name.text = labelList[labelidx]
+            intent.putExtra("food_name",labelList[labelidx])
         }
 
+
+
+
         btn_search.setOnClickListener{
-            labelList[labelidx]
+            startActivity(intent)
         }
 
 
