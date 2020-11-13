@@ -27,11 +27,13 @@ class UploadedFoodActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uploaded_food)
         photoImage = intent.getParcelableExtra("image")
+        Log.d("이미지", photoImage.toString())
         labelList = intent.getStringArrayListExtra("label")
         Log.d("트라이", labelList.toString())
 
         if (intent.hasExtra("image") || intent.hasExtra("label")) {
             iv_food.setImageBitmap(photoImage)
+//            iv_food.setImageURI(photoImage)
             tv_food_name.text = labelList[labelidx]
         } else {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
