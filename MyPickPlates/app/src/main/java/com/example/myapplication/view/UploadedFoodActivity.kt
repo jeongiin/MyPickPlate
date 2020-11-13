@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_uploaded_food.*
 
 class UploadedFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
+    private var labelidx = 0
     private lateinit var photoImage: Bitmap
     private lateinit var labelList: ArrayList<String>
 
@@ -27,9 +28,23 @@ class UploadedFoodActivity : AppCompatActivity() {
 
         if (intent.hasExtra("image") || intent.hasExtra("label")) {
             iv_food.setImageBitmap(photoImage)
-            tv_food_name.text = labelList[0]
+            tv_food_name.text = labelList[labelidx]
         } else {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
+        }
+
+
+        btn_rename.setOnClickListener{
+            labelidx ++
+            if (labelidx < labelList.size)
+                tv_food_name.text = labelList[labelidx]
+            else
+                labelidx = 0
+                tv_food_name.text = labelList[labelidx]
+        }
+
+        btn_search.setOnClickListener{
+            labelList[labelidx]
         }
 
 
