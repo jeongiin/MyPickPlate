@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,13 +20,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
 import com.example.myapplication.model.Result
+import java.net.URI
 
 class UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private val labelList = ArrayList<String>()
     private lateinit var photoImage: Bitmap
+    private lateinit var photoImageURI: Uri
     private lateinit var classifier: ImageClassifier
-    private lateinit var label : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class UploadFoodActivity : AppCompatActivity() {
         if (requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK)
             try {
 
+
                 val stream = contentResolver!!.openInputStream(data!!.getData()!!)
                 if (::photoImage.isInitialized) photoImage.recycle()
                 photoImage = BitmapFactory.decodeStream(stream)
@@ -75,13 +78,18 @@ class UploadFoodActivity : AppCompatActivity() {
                             labelList.add(i,it[i].toString())
                     }
                 )
+
                 Log.d("트라이", "classifier")
+
+                // Image URI 생성
+                photoImageURI = data!!.getData()!!
 
 
                 // Intent uploaded food activity
                 var intent = Intent(this, UploadedFoodActivity::class.java)
                 intent.putExtra("image",photoImage)
                 intent.putStringArrayListExtra("label",labelList)
+                intent.putExtra("uri",photoImageURI.toString())
                 startActivity(intent)
 
             } catch (e: FileNotFoundException) {
