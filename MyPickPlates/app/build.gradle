@@ -41,4 +41,5 @@ dependencies {
     implementation('org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly') { changing = true }
     implementation('org.tensorflow:tensorflow-lite-support:0.0.0-nightly') { changing = true }
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    compile 'com.google.code.gson:gson:2.8.2'
 }
