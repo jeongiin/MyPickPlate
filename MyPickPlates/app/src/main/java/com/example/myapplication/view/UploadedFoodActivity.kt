@@ -97,18 +97,13 @@ class UploadedFoodActivity : AppCompatActivity() {
 
     private fun ReadPhotosData(): ArrayList<Photo?> {
         val sharedPrefs: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
-        Log.d("불러오기1", sharedPrefs.toString())
         val gson = Gson()
-        Log.d("불러오기2", gson.toString())
         val json = sharedPrefs.getString("PHOTO_LIST", "EMPTY")
-        Log.d("불러오기3", json.toString())
         val type: Type = object : TypeToken<ArrayList<Photo?>?>() {}.type
-        Log.d("불러오기4", type.toString())
         if (json.toString() != "EMPTY")
             return gson.fromJson(json, type) //Array List 반환
 
         var photos = ArrayList<Photo?>()
-
         return photos
     }
 
