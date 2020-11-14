@@ -1,0 +1,4 @@
+.ipynb_checkpoints
+김치찌개
+된장찌개
+순두부찌개
