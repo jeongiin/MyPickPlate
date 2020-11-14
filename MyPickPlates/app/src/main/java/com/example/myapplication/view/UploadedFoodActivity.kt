@@ -44,7 +44,8 @@ class UploadedFoodActivity : AppCompatActivity() {
         }
 
         // Intent uploaded food activity
-        var intent = Intent(this, RecommendFoodActivity::class.java)
+        var intentToRecommend = Intent(this, RecommendFoodActivity::class.java)
+        var intentToView = Intent(this, ViewFoodActivity::class.java)
 
 
        // Rename Food Photo
@@ -55,7 +56,7 @@ class UploadedFoodActivity : AppCompatActivity() {
             else
                 labelidx = 0
                 tv_food_name.text = labelList[labelidx]
-            intent.putExtra("food_name",labelList[labelidx])
+            intentToRecommend.putExtra("food_name",labelList[labelidx])
         }
 
 
@@ -65,12 +66,14 @@ class UploadedFoodActivity : AppCompatActivity() {
        btn_save.setOnClickListener{
            // Saves image URI as string to Default Shared Preferences
            var photos = ReadPhotosData()!!
-           Log.d("이미지 sp", photos.toString())
+           Log.d("이미지 sp in Uploaded", photos.toString())
            for (photo in ReadPhotosData()) {
-               Log.d("이미지데이터",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
+               Log.d("이미지데이터 in Uploaded",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
            }
            photos.add(Photo(imageUri, labelList[labelidx]))
            SavePhotoData(photos)
+
+           startActivity(intentToView)
 
            this@UploadedFoodActivity.finish()
        }
@@ -78,7 +81,7 @@ class UploadedFoodActivity : AppCompatActivity() {
 
         // Intent RecommendFoodActivity
         btn_search.setOnClickListener{
-            startActivity(intent)
+            startActivity(intentToRecommend)
         }
 
 

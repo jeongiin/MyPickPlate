@@ -1,15 +1,20 @@
 package com.example.myapplication.view
 
 import android.Manifest
+import android.R.attr
 import android.app.Activity
+import android.app.backup.SharedPreferencesBackupHelper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
@@ -19,8 +24,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
-import com.example.myapplication.model.Result
-import java.net.URI
+
 
 class UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
@@ -49,8 +53,15 @@ class UploadFoodActivity : AppCompatActivity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            intent.action = Intent.ACTION_GET_CONTENT
+        } else {
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
+        }
         intent.addCategory(Intent.CATEGORY_OPENABLE) // 갤러리 입장
         startActivityForResult(intent, CHOOSE_IMAGE) // 이미지 선택하여 전달됨
+
+
     }
 
     /*
@@ -60,22 +71,32 @@ class UploadFoodActivity : AppCompatActivity() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK)
+        if (requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK) {
+
+            val uri: Uri = data!!.getData()!!
+            val takeFlags =
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                contentResolver.takePersistableUriPermission(uri, takeFlags)
+            }
+
             try {
 
 
                 val stream = contentResolver!!.openInputStream(data!!.getData()!!)
                 if (::photoImage.isInitialized) photoImage.recycle()
                 photoImage = BitmapFactory.decodeStream(stream)
-                photoImage = Bitmap.createScaledBitmap(photoImage,
+                photoImage = Bitmap.createScaledBitmap(
+                    photoImage,
                     SetKey.INPUT_SIZE,
-                    SetKey.INPUT_SIZE, false)
+                    SetKey.INPUT_SIZE, false
+                )
 
 
                 classifier.recognizeImage(photoImage).subscribeBy(
                     onSuccess = {
-                        for( i in 0 until it.size)
-                            labelList.add(i,it[i].toString())
+                        for (i in 0 until it.size)
+                            labelList.add(i, it[i].toString())
                     }
                 )
 
@@ -87,14 +108,15 @@ class UploadFoodActivity : AppCompatActivity() {
 
                 // Intent uploaded food activity
                 var intent = Intent(this, UploadedFoodActivity::class.java)
-                intent.putExtra("image",photoImage)
-                intent.putStringArrayListExtra("label",labelList)
-                intent.putExtra("uri",photoImageURI.toString())
+                intent.putExtra("image", photoImage)
+                intent.putStringArrayListExtra("label", labelList)
+                intent.putExtra("uri", photoImageURI.toString())
                 startActivity(intent)
 
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -109,5 +131,19 @@ class UploadFoodActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         classifier.close()
+    }
+
+    private fun getRealPathFromURI(contentURI: Uri): String? {
+        val result: String
+        val cursor: Cursor? = getContentResolver().query(contentURI, null, null, null, null)
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.path!!
+        } else {
+            cursor.moveToFirst()
+            val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            result = cursor.getString(idx)
+            cursor.close()
+        }
+        return result
     }
 }
