@@ -89,6 +89,7 @@ class UploadFoodActivity : AppCompatActivity() {
                 var intent = Intent(this, UploadedFoodActivity::class.java)
                 intent.putExtra("image",photoImage)
                 intent.putStringArrayListExtra("label",labelList)
+                intent.putExtra("uri",photoImageURI.toString())
                 startActivity(intent)
 
             } catch (e: FileNotFoundException) {

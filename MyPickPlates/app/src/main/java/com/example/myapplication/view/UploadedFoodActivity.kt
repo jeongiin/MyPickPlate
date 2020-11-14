@@ -1,22 +1,25 @@
 package com.example.myapplication.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
-import com.example.myapplication.utils.ImageClassifier
-import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.myapplication.utils.Photo
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_uploaded_food.*
+import java.lang.reflect.Type
 
 
 class UploadedFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private var labelidx = 0
+    private lateinit var imageUri : String
     private lateinit var photoImage: Bitmap
     private lateinit var labelList: ArrayList<String>
 
@@ -30,18 +33,21 @@ class UploadedFoodActivity : AppCompatActivity() {
         Log.d("이미지", photoImage.toString())
         labelList = intent.getStringArrayListExtra("label")
         Log.d("트라이", labelList.toString())
+        imageUri = intent.getStringExtra("uri")
+        Log.d("이미지in업로디드", imageUri)
 
-        if (intent.hasExtra("image") || intent.hasExtra("label")) {
+        if (intent.hasExtra("image") || intent.hasExtra("label") || intent.hasExtra("uri")) {
             iv_food.setImageBitmap(photoImage)
-//            iv_food.setImageURI(photoImage)
             tv_food_name.text = labelList[labelidx]
         } else {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
         }
 
         // Intent uploaded food activity
-        var intent = Intent(this, RecommedFoodActivity::class.java)
+        var intent = Intent(this, RecommendFoodActivity::class.java)
 
+
+       // Rename Food Photo
         btn_rename.setOnClickListener{
             labelidx ++
             if (labelidx < labelList.size)
@@ -53,12 +59,62 @@ class UploadedFoodActivity : AppCompatActivity() {
         }
 
 
+       // Save Image
+       // Use Shared Preferences : string array
+       // key(img uri) + food name
+       btn_save.setOnClickListener{
+           // Saves image URI as string to Default Shared Preferences
+           var photos = ReadPhotosData()!!
+           Log.d("이미지 sp", photos.toString())
+           for (photo in ReadPhotosData()) {
+               Log.d("이미지데이터",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
+           }
+           photos.add(Photo(imageUri, labelList[labelidx]))
+           SavePhotoData(photos)
+
+           this@UploadedFoodActivity.finish()
+       }
 
 
+        // Intent RecommendFoodActivity
         btn_search.setOnClickListener{
             startActivity(intent)
         }
 
 
+    }
+
+
+    private fun SavePhotoData(Photos: ArrayList<Photo?>?) {
+        val preferences: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
+        val editor = preferences!!.edit()
+        val gson = Gson()
+        val json = gson.toJson(Photos)
+        editor.putString("PHOTO_LIST", json) // json 타입으로 변환한 객체 저장
+        editor.commit() // 완료
+    }
+
+
+    private fun ReadPhotosData(): ArrayList<Photo?> {
+        val sharedPrefs: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
+        Log.d("불러오기1", sharedPrefs.toString())
+        val gson = Gson()
+        Log.d("불러오기2", gson.toString())
+        val json = sharedPrefs.getString("PHOTO_LIST", "EMPTY")
+        Log.d("불러오기3", json.toString())
+        val type: Type = object : TypeToken<ArrayList<Photo?>?>() {}.type
+        Log.d("불러오기4", type.toString())
+        if (json.toString() != "EMPTY")
+            return gson.fromJson(json, type) //Array List 반환
+
+        var photos = ArrayList<Photo?>()
+
+        return photos
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this@UploadedFoodActivity.finish()
     }
 }

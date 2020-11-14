@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recommed_food.*
 import kotlinx.android.synthetic.main.activity_uploaded_food.*
 
-class RecommedFoodActivity : AppCompatActivity() {
+class RecommendFoodActivity : AppCompatActivity() {
 
     private lateinit var food_name : String
     private var time : Long = 0
