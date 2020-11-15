@@ -9,7 +9,8 @@ android {
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -42,4 +43,11 @@ dependencies {
     implementation('org.tensorflow:tensorflow-lite-support:0.0.0-nightly') { changing = true }
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     compile 'com.google.code.gson:gson:2.8.2'
+
+
+    implementation 'com.github.bumptech.glide:glide:4.1.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
 }
