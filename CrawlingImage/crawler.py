@@ -16,7 +16,7 @@ search = '순두부찌개'
 name = 'sundubujjigae' # 저장할 이름
 url = 'https://www.google.com/search?q='+search+'&sxsrf=ALeKk03IxLUnCXWvf0FhItrtv52T9NRQ3Q:1604817220329&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsiuOCqvLsAhVSPnAKHRWyA6kQ_AUoAXoECBsQAw&biw=1522&bih=812'
 
-driver = webdriver.Chrome('d:\Downloads\chromedriver_win32 (2)\chromedriver_win32 (3)\chromedriver.exe') #자신의 경로로 바꿔줘야함
+driver = webdriver.Chrome('d:\Downloads\chromedriver_win32 (2)\chromedriver_win32 (3)\chromedriver.exe') #자신의 경로로 바꿔줘야함z
 # 크롬이 업데이트 되어 존재하던 크롬 드라이버 버전과 일치하지 않는 경우 에러가 발생할 수 있음
 
 driver.get(url)
