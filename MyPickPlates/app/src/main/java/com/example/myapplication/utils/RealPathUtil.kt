@@ -15,6 +15,8 @@ import androidx.loader.content.CursorLoader
 
 object RealPathUtil {
 
+    // uri 불러오는 것 때문에 삽질하느라 쓰긴 했으나 실제로 이용하진 않는 코드
+    // 참고용으로 남겨둠
     fun getRealPath(context: Context, fileUri: Uri): String? {
         // SDK >= 11 && SDK < 19
         return if (Build.VERSION.SDK_INT < 19) {

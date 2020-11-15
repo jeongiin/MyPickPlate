@@ -1,7 +1,6 @@
 package com.example.myapplication.view
 
 import android.Manifest
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,12 +13,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.adapters.ViewFoodAdapter
-import com.example.myapplication.utils.BitmapItem
 import com.example.myapplication.utils.Photo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -39,23 +37,15 @@ class ViewFoodActivity : AppCompatActivity() {
         checkPermission()
 
         var photoData = ReadPhotosData()!!
-        var bitmapData = ArrayList<BitmapItem>()
 
         Log.d("이미지 sp in Uploaded", photoData.toString())
         for (photo in ReadPhotosData()) {
             Log.d("이미지데이터 in Uploaded", photo?.uri + " : " + photo?.food_id + "\n")
         }
 
-//        for (i in 0 until photoData.size){
-//            Log.d("이미지URI 변형전", photoData[i].uri)
-//            var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, photoData[i].uri.toUri())
-//
-////            var uri = getRealPathFromURI(photoData[i].uri.toUri())
-////            Log.d("이미지URI IN VIEW", uri)
-//            bitmapData[i].bm = bitmap
-//            bitmapData[i].id = photoData[i].food_id
-//        }
-        viewManager = LinearLayoutManager(this)
+//        레이아웃 메니저
+//        viewManager = LinearLayoutManager(this)
+        viewManager = GridLayoutManager(this, 2)
         viewAdapter = ViewFoodAdapter(photoData)
 
         recyclerView = findViewById<RecyclerView>(R.id.rv_food).apply {

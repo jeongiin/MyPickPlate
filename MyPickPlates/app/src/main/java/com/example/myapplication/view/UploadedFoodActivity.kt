@@ -67,15 +67,25 @@ class UploadedFoodActivity : AppCompatActivity() {
        btn_save.setOnClickListener{
            // Saves image URI as string to Default Shared Preferences
            var photos = ReadPhotosData()!!
+           var dup = 0
+
            Log.d("이미지 sp in Uploaded", photos.toString())
            for (photo in ReadPhotosData()) {
+               // 중복 저장 방지를 위한 mode 추가
+               if (photo?.uri == imageUri)
+                   dup = 1
                Log.d("이미지데이터 in Uploaded",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
            }
 
-           photos.add(Photo(imageUri, labelList[labelidx]))
-           SavePhotoData(photos)
+           if (dup == 0 ){
+               // 이미지가 sp에 없을 경우 저장
+               photos.add(Photo(imageUri, labelList[labelidx]))
+               SavePhotoData(photos)
+               startActivity(intentToView)
+           }
+           else
+               Toast.makeText(this, "이미 존재하는 사진입니다.",Toast.LENGTH_LONG).show()
 
-           startActivity(intentToView)
 
            this@UploadedFoodActivity.finish()
        }
