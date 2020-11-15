@@ -44,7 +44,8 @@ class UploadedFoodActivity : AppCompatActivity() {
         }
 
         // Intent uploaded food activity
-        var intent = Intent(this, RecommendFoodActivity::class.java)
+        var intentToRecommend = Intent(this, RecommendFoodActivity::class.java)
+        var intentToView = Intent(this, ViewFoodActivity::class.java)
 
 
        // Rename Food Photo
@@ -55,9 +56,10 @@ class UploadedFoodActivity : AppCompatActivity() {
             else
                 labelidx = 0
                 tv_food_name.text = labelList[labelidx]
-            intent.putExtra("food_name",labelList[labelidx])
+            intentToRecommend.putExtra("food_name",labelList[labelidx])
         }
 
+       intentToRecommend.putExtra("food_name",labelList[labelidx])
 
        // Save Image
        // Use Shared Preferences : string array
@@ -65,12 +67,25 @@ class UploadedFoodActivity : AppCompatActivity() {
        btn_save.setOnClickListener{
            // Saves image URI as string to Default Shared Preferences
            var photos = ReadPhotosData()!!
-           Log.d("이미지 sp", photos.toString())
+           var dup = 0
+
+           Log.d("이미지 sp in Uploaded", photos.toString())
            for (photo in ReadPhotosData()) {
-               Log.d("이미지데이터",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
+               // 중복 저장 방지를 위한 mode 추가
+               if (photo?.uri == imageUri)
+                   dup = 1
+               Log.d("이미지데이터 in Uploaded",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
            }
-           photos.add(Photo(imageUri, labelList[labelidx]))
-           SavePhotoData(photos)
+
+           if (dup == 0 ){
+               // 이미지가 sp에 없을 경우 저장
+               photos.add(Photo(imageUri, labelList[labelidx]))
+               SavePhotoData(photos)
+               startActivity(intentToView)
+           }
+           else
+               Toast.makeText(this, "이미 존재하는 사진입니다.",Toast.LENGTH_LONG).show()
+
 
            this@UploadedFoodActivity.finish()
        }
@@ -78,7 +93,7 @@ class UploadedFoodActivity : AppCompatActivity() {
 
         // Intent RecommendFoodActivity
         btn_search.setOnClickListener{
-            startActivity(intent)
+            startActivity(intentToRecommend)
         }
 
 
@@ -97,18 +112,13 @@ class UploadedFoodActivity : AppCompatActivity() {
 
     private fun ReadPhotosData(): ArrayList<Photo?> {
         val sharedPrefs: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
-        Log.d("불러오기1", sharedPrefs.toString())
         val gson = Gson()
-        Log.d("불러오기2", gson.toString())
         val json = sharedPrefs.getString("PHOTO_LIST", "EMPTY")
-        Log.d("불러오기3", json.toString())
         val type: Type = object : TypeToken<ArrayList<Photo?>?>() {}.type
-        Log.d("불러오기4", type.toString())
         if (json.toString() != "EMPTY")
             return gson.fromJson(json, type) //Array List 반환
 
         var photos = ArrayList<Photo?>()
-
         return photos
     }
 
