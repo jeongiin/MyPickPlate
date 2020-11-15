@@ -59,6 +59,7 @@ class UploadedFoodActivity : AppCompatActivity() {
             intentToRecommend.putExtra("food_name",labelList[labelidx])
         }
 
+       intentToRecommend.putExtra("food_name",labelList[labelidx])
 
        // Save Image
        // Use Shared Preferences : string array
@@ -70,6 +71,7 @@ class UploadedFoodActivity : AppCompatActivity() {
            for (photo in ReadPhotosData()) {
                Log.d("이미지데이터 in Uploaded",photo?.uri + " : " + photo?.food_id + "\n") // 잘 받아와 진당 ㅠㅠㅠㅠㅠㅠㅠ
            }
+
            photos.add(Photo(imageUri, labelList[labelidx]))
            SavePhotoData(photos)
 
