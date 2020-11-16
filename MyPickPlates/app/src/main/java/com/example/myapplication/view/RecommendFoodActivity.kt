@@ -29,6 +29,8 @@ import java.net.URL
 import java.net.URLEncoder
 import java.util.*
 
+
+
 class RecommendFoodActivity : AppCompatActivity() {
 
     private lateinit var food_name: String
