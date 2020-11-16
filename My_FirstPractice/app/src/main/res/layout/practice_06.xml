@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/view1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:background="#FF4141" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@+id/view1"
+        android:layout_toRightOf="@+id/view1"
+        android:background="#FF5722" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@+id/view1"
+        android:layout_toLeftOf="@+id/view1"
+        android:background="#FFEB3B" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/view1"
+        android:layout_toStartOf="@+id/view1"
+        android:background="#9C27B0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/view1"
+        android:layout_toEndOf="@+id/view1"
+        android:background="#2196F3" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/view1"
+        android:layout_centerInParent="true"
+        android:background="#4CAF50" />
+
+    \
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/view1"
+        android:layout_centerInParent="true"
+        android:background="#FFC107" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/view1"
+        android:layout_toStartOf="@+id/view1"
+        android:background="#9C27B0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/view1"
+        android:layout_toEndOf="@+id/view1"
+        android:background="#9C27B0" />
+
+</RelativeLayout>
