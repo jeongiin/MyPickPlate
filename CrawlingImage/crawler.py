@@ -12,11 +12,11 @@ import time
 2. search key word & name 사전 지정
 3. folder 구성 (search 네임으로 된 폴더와 train, test, val, ect 폴더 필요)
 '''
-search = '순두부찌개'
-name = 'sundubujjigae' # 저장할 이름
+search = '부대찌개'
+name = 'budaejjigae' # 저장할 이름
 url = 'https://www.google.com/search?q='+search+'&sxsrf=ALeKk03IxLUnCXWvf0FhItrtv52T9NRQ3Q:1604817220329&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsiuOCqvLsAhVSPnAKHRWyA6kQ_AUoAXoECBsQAw&biw=1522&bih=812'
 
-driver = webdriver.Chrome('d:\Downloads\chromedriver_win32 (2)\chromedriver_win32 (3)\chromedriver.exe') #자신의 경로로 바꿔줘야함z
+driver = webdriver.Chrome('d:\Downloads\chromedriver_win32 (2)\chromedriver_win32 (3)\chromedriver.exe') #자신의 경로로 바꿔줘야함
 # 크롬이 업데이트 되어 존재하던 크롬 드라이버 버전과 일치하지 않는 경우 에러가 발생할 수 있음
 
 driver.get(url)
@@ -64,15 +64,7 @@ for i in img:
 # train : val : test = 6 : 2: 2 로 맞추고자 함
 
 for i in imgurl:
-    if n < 71:
-        urlretrieve(i, "./크롤링 사진/" + search + "/train/" + name + str(n) + ".jpg")
-    elif n < 91:
-        urlretrieve(i, "./크롤링 사진/" + search + "/val/" + name + str(n) + ".jpg")
-    elif n < 111:
-        urlretrieve(i, "./크롤링 사진/" + search + "/test/" + name + str(n) + ".jpg")
-    else:
-        urlretrieve(i, "./크롤링 사진/" + search + "/ect/" + name + str(n) + ".jpg")
-
+    urlretrieve(i,"./크롤링 사진/"+ search + "/" + name + str(n) + ".jpg")
     n+=1
 
 # for i in range(60):
@@ -82,4 +74,3 @@ print(name + " crawling finish")
 
 
 driver.close()
-
