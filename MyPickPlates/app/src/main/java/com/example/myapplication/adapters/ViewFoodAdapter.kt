@@ -1,22 +1,29 @@
 package com.example.myapplication.adapters
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.utils.Photo
 import com.example.myapplication.view.RecommendFoodActivity
+import com.google.gson.Gson
 
 
-class ViewFoodAdapter(private val foodList: ArrayList<Photo>) :
+class ViewFoodAdapter(private var foodList: ArrayList<Photo>) :
     RecyclerView.Adapter<ViewFoodAdapter.MyPageViewHolder>() {
+
 
     class MyPageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val iv_food = itemView?.findViewById<ImageView>(R.id.iv_food_item)
@@ -53,6 +60,25 @@ class ViewFoodAdapter(private val foodList: ArrayList<Photo>) :
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
 
+        holder?.itemView.setOnLongClickListener {
+            val dialog = AlertDialog.Builder(it.context)
+            dialog.setMessage("사진을 삭제하시겠습니까?")
+            dialog.setPositiveButton("네", DialogInterface.OnClickListener { _, _ ->
+                removeItem(position)
+                notifyItemRemoved(position)
+            })
+            dialog.setNegativeButton("아니오", DialogInterface.OnClickListener { _, _ ->
+            })
+            dialog.show()
+            true
+        }
+
+    }
+
+
+    fun removeItem(position: Int){
+        foodList.remove(foodList[position])
+        notifyItemRemoved(position)
     }
 
 

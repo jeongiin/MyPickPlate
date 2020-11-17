@@ -2,6 +2,7 @@ package com.example.myapplication.view
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -10,12 +11,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.transition.Transition
 import com.example.myapplication.R
 import com.example.myapplication.adapters.ViewFoodAdapter
 import com.example.myapplication.utils.Photo
@@ -30,13 +33,14 @@ class ViewFoodActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var photoData: ArrayList<Photo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_food)
         checkPermission()
 
-        var photoData = ReadPhotosData()!!
+        photoData = ReadPhotosData()!!
 
         Log.d("이미지 sp in Uploaded", photoData.toString())
         for (photo in ReadPhotosData()) {
@@ -66,15 +70,39 @@ class ViewFoodActivity : AppCompatActivity() {
 
         btn_add.setOnClickListener{
             startActivity(intentToUploadAct)
+            SavePhotoData(photoData)
+            finish()
         }
-
-        
 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        SavePhotoData(photoData)
+    }
 
-    private fun SavePhotoData(Photos: ArrayList<Photo?>?) {
+    override fun onDestroy() {
+        super.onDestroy()
+        SavePhotoData(photoData)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SavePhotoData(photoData)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        SavePhotoData(photoData)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this@ViewFoodActivity.finish()
+    }
+
+    private fun SavePhotoData(Photos: ArrayList<Photo>) {
         val preferences: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
         val editor = preferences!!.edit()
         val gson = Gson()
@@ -125,8 +153,4 @@ class ViewFoodActivity : AppCompatActivity() {
 //        }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        this@ViewFoodActivity.finish()
-    }
 }
