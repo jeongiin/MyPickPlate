@@ -70,6 +70,7 @@ class UploadedFoodActivity : AppCompatActivity() {
            var dup = 0
 
            Log.d("이미지 sp in Uploaded", photos.toString())
+
            for (photo in ReadPhotosData()) {
                // 중복 저장 방지를 위한 mode 추가
                if (photo?.uri == imageUri)

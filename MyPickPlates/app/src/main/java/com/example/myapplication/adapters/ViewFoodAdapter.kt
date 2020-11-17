@@ -43,7 +43,10 @@ class ViewFoodAdapter(private val foodList: ArrayList<Photo>) :
     override fun onBindViewHolder(holder: MyPageViewHolder, position: Int) {
         holder?.bind(foodList[position]!!)
         Log.d("리사이클러뷰 불러짐", "성공")
+
     }
+
+
 
     //  RecyclerView로 만들어지는 item의 총 개수를 반환
     override fun getItemCount() = foodList.size
