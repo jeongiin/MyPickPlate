@@ -1,15 +1,18 @@
 package com.example.myapplication.adapters
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.utils.Photo
+import com.example.myapplication.view.RecommendFoodActivity
 
 
 class ViewFoodAdapter(private val foodList: ArrayList<Photo>) :
@@ -43,6 +46,12 @@ class ViewFoodAdapter(private val foodList: ArrayList<Photo>) :
     override fun onBindViewHolder(holder: MyPageViewHolder, position: Int) {
         holder?.bind(foodList[position]!!)
         Log.d("리사이클러뷰 불러짐", "성공")
+
+        holder?.itemView.setOnClickListener{
+            val intent = Intent(holder.itemView?.context, RecommendFoodActivity::class.java)
+            intent.putExtra("food_name",foodList[position].food_id)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
+        }
 
     }
 
