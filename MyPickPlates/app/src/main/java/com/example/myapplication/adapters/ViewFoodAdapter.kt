@@ -78,7 +78,6 @@ class ViewFoodAdapter(private var foodList: ArrayList<Photo>) :
 
     fun removeItem(position: Int){
         foodList.remove(foodList[position])
-        notifyItemRemoved(position)
     }
 
 

@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
 
 
-class UploadFoodActivity : AppCompatActivity() {
+class
+UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private val labelList = ArrayList<String>()
     private lateinit var photoImage: Bitmap
