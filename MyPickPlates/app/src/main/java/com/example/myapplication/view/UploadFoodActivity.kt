@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.activity_upload_food.*
 import java.io.FileNotFoundException
 
 
-class UploadFoodActivity : AppCompatActivity() {
+class
+UploadFoodActivity : AppCompatActivity() {
     private val CHOOSE_IMAGE = 1001
     private val labelList = ArrayList<String>()
     private lateinit var photoImage: Bitmap
@@ -113,6 +114,8 @@ class UploadFoodActivity : AppCompatActivity() {
                 intent.putExtra("uri", photoImageURI.toString())
                 startActivity(intent)
 
+                this@UploadFoodActivity.finish() // intent로 uploaded activity 넘어감과 동시에 activity 생명주기 종료
+
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
@@ -133,17 +136,12 @@ class UploadFoodActivity : AppCompatActivity() {
         classifier.close()
     }
 
-    private fun getRealPathFromURI(contentURI: Uri): String? {
-        val result: String
-        val cursor: Cursor? = getContentResolver().query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path!!
-        } else {
-            cursor.moveToFirst()
-            val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-            cursor.close()
-        }
-        return result
+    override fun onBackPressed() {
+        super.onBackPressed()
+        var intent = Intent(this, ViewFoodActivity::class.java)
+        startActivity(intent)
+        this@UploadFoodActivity.finish()
     }
+
+
 }
