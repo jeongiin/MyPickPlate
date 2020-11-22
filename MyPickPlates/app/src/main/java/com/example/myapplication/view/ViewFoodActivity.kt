@@ -4,17 +4,15 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.adapters.ViewFoodAdapter
@@ -23,6 +21,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_view_food.*
 import java.lang.reflect.Type
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class ViewFoodActivity : AppCompatActivity() {
@@ -30,21 +30,22 @@ class ViewFoodActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var photoData: ArrayList<Photo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_food)
         checkPermission()
 
-        var photoData = ReadPhotosData()!!
+        photoData = ReadPhotosData()!!
 
         Log.d("이미지 sp in Uploaded", photoData.toString())
         for (photo in ReadPhotosData()) {
             Log.d("이미지데이터 in Uploaded", photo?.uri + " : " + photo?.food_id + "\n")
         }
 
-//        레이아웃 메니저
-//        viewManager = LinearLayoutManager(this)
+        // 레이아웃 메니저
+        // viewManager = LinearLayoutManager(this)
         viewManager = GridLayoutManager(this, 2)
         viewAdapter = ViewFoodAdapter(photoData)
 
@@ -62,34 +63,43 @@ class ViewFoodActivity : AppCompatActivity() {
 
         //Intent
         var intentToUploadAct = Intent(this, UploadFoodActivity::class.java)
-        var intentToUploadedAvt = Intent(this, UploadedFoodActivity::class.java)
+        var intentToRecommendFoodActivity = Intent(this, UploadedFoodActivity::class.java)
 
         btn_add.setOnClickListener{
             startActivity(intentToUploadAct)
+            SavePhotoData(photoData)
+            finish()
         }
-
-        // btn_각각의 아이템 . 온클릭리스너 --> 이미지, 이미지이름(푸드네임), 저장하면 안되므로 Uri값X "CANT"로 각ㅁ
-        // 업로디드에서 Uri 가 CANT로 갈 경우 TOAST로 이미 존재하는 이미지임을 표시
 
 
     }
 
-    private fun getRealPathFromURI(contentURI: Uri): String? {
-        val result: String
-        val cursor: Cursor? = contentResolver.query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path!!
-        } else {
-            cursor.moveToFirst()
-            val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-            cursor.close()
-        }
-        return result
+    override fun onResume() {
+        super.onResume()
+        SavePhotoData(photoData)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        SavePhotoData(photoData)
+    }
 
-    private fun SavePhotoData(Photos: ArrayList<Photo?>?) {
+    override fun onPause() {
+        super.onPause()
+        SavePhotoData(photoData)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        SavePhotoData(photoData)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this@ViewFoodActivity.finish()
+    }
+
+    private fun SavePhotoData(Photos: ArrayList<Photo>) {
         val preferences: SharedPreferences = getSharedPreferences("PHOTO_LIST", Context.MODE_PRIVATE)
         val editor = preferences!!.edit()
         val gson = Gson()
@@ -113,7 +123,8 @@ class ViewFoodActivity : AppCompatActivity() {
 
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE)
 
     private val multiplePermissionsCode = 100
     private fun checkPermission() {
@@ -139,8 +150,4 @@ class ViewFoodActivity : AppCompatActivity() {
 //        }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        this@ViewFoodActivity.finish()
-    }
 }

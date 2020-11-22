@@ -8,7 +8,11 @@ import android.widget.Toast
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.activity_recommed_food.*
 import android.Manifest
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -20,21 +24,33 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.utils.MyJobService
 import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.item_recommend_food.*
+import net.daum.mf.map.common.net.HeaderItem
 import okhttp3.*
 import java.io.IOException
 import java.net.URL
 import java.net.URLEncoder
 import java.util.*
-
+import java.util.EnumSet.range
+import java.util.concurrent.TimeUnit
+import android.os.AsyncTask
+import android.os.Handler
 
 
 class RecommendFoodActivity : AppCompatActivity() {
 
     private lateinit var food_name: String
     private var time: Long = 0
+    private var road_add = Array<String>(5, { "1" })
+    private var store_name = Array<String>(5, { "2" })
+    private var latlong = DoubleArray(2, { 0.0 })
+    private lateinit var store_list1: Array<Item>
+    private lateinit var store_list2: Array<Item>
 
     //퍼미션 응답 처리 코드
     private val multiplePermissionsCode = 100
@@ -43,13 +59,15 @@ class RecommendFoodActivity : AppCompatActivity() {
     //원하는 퍼미션을 이곳에 추가하면 된다.
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION)
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommed_food)
 
-//        checkPermissions()
+
+        checkPermissions()
 
         food_name = intent.getStringExtra("food_name")
 
@@ -60,7 +78,7 @@ class RecommendFoodActivity : AppCompatActivity() {
             Log.d("food_name", " : " + food_name)
 
             // 주소 구하기
-            val latlong: Array<Double> = getCurrentLoc()
+            latlong = getCurrentLoc()
             Log.d("lattitude", " : " + latlong[0])
             Log.d("longtitude", " : " + latlong[1])
 
@@ -69,29 +87,35 @@ class RecommendFoodActivity : AppCompatActivity() {
 
             add_sigudong.text = sigudong_arr[0] + " " + sigudong_arr[1] + " " + sigudong_arr[2]
 
+
             // 검색어 생성
-            val search_text: String = sigudong_arr[2] + " " + food_name + " " + "맛집"
-            Log.d("text information : ", "--" + search_text)
+            val search_text1: String = sigudong_arr[2] + " " + food_name + " " + "맛집"
+            Log.d("text information : ", "--" + search_text1)
 
-            // API 호출출
-            fetchJson(search_text)
+            val search_text2: String = sigudong_arr[2] + " " + food_name + " " + "존맛"
+            Log.d("text information : ", "--" + search_text2)
 
+            // API 호출
+            fetchJson(search_text1)
 
         } else {
             Toast.makeText(this, "Image Error!", Toast.LENGTH_SHORT).show()
         }
 
+        bt_show_map.setOnClickListener {
+            val intent = Intent(this, ShowMapActivity::class.java)
+            intent.apply {
+                this.putExtra("lat_long", latlong)
+                this.putExtra("road_add", road_add)
+                this.putExtra("store_name", store_name)
+            }
+
+            startActivity(intent)
+        }
+
 
     }
 
-//    public void onBackPressed(){
-//        if(System.currentTimeMillis()-time>=2000){
-//            time=System.currentTimeMillis();
-//            Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
-//        }else if(System.currentTimeMillis()-time<2000){
-//            finish();
-//        }
-//    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -104,28 +128,36 @@ class RecommendFoodActivity : AppCompatActivity() {
         var rejectedPermissionList = ArrayList<String>()
 
         //필요한 퍼미션들을 하나씩 끄집어내서 현재 권한을 받았는지 체크
-        for(permission in requiredPermissions){
-            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        for (permission in requiredPermissions) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 //만약 권한이 없다면 rejectedPermissionList에 추가
                 rejectedPermissionList.add(permission)
             }
         }
         //거절된 퍼미션이 있다면...
-        if(rejectedPermissionList.isNotEmpty()){
+        if (rejectedPermissionList.isNotEmpty()) {
             //권한 요청!
             val array = arrayOfNulls<String>(rejectedPermissionList.size)
-            ActivityCompat.requestPermissions(this, rejectedPermissionList.toArray(array), multiplePermissionsCode)
+            ActivityCompat.requestPermissions(
+                this,
+                rejectedPermissionList.toArray(array),
+                multiplePermissionsCode
+            )
         }
     }
 
     // 내 위치 위도, 경도 구하기
-    fun getCurrentLoc(): Array<Double> {
+    fun getCurrentLoc(): DoubleArray {
         val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         var getLatitude: Double
         var getLongitude: Double
-        var lat_long = Array<Double>(2, { 0.0 })
+        var lat_long = DoubleArray(2, { 0.0 })
         Log.d("getcurrentloc(1)", "성공")
 
         // 권환 확인
@@ -181,7 +213,7 @@ class RecommendFoodActivity : AppCompatActivity() {
     }
 
     // 위도, 경도 --> 주소 구하기
-    fun korean_location(lat_long: Array<Double>): String {
+    fun korean_location(lat_long: DoubleArray): String {
         var mGeocoder = Geocoder(applicationContext, Locale.KOREAN)
         var address: List<Address>? = null
         val result_add: String
@@ -235,6 +267,13 @@ class RecommendFoodActivity : AppCompatActivity() {
                 println(homefeed)
                 Log.d("dataJson :", "kkk" + homefeed)
 
+                var k = 0
+                for ( i in homefeed.items){
+                    road_add[k] = i.roadAddress
+                    store_name[k] = i.title
+                    k+=1
+                }
+
 
                 runOnUiThread {
                     val adapter =
@@ -256,27 +295,36 @@ class RecommendFoodActivity : AppCompatActivity() {
 
     }
 
+
     class RecyclerViewAdapter(
         val homefeed: Homefeed,
         val inflater: LayoutInflater
     ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView
-//            val link: TextView
             val category: TextView
-
-            //        val description : TextView
-        val telephone : TextView
+            val telephone: TextView
             val address: TextView
-//        val roadAddress : TextView
-//        val mapx : TextView
-//        val mapy : TextView
 
             init {
                 title = itemView.findViewById(R.id.restaurant_name)
                 category = itemView.findViewById(R.id.category)
                 telephone = itemView.findViewById(R.id.telephon_number)
                 address = itemView.findViewById(R.id.address)
+                itemView.setOnClickListener {
+                    val position: Int = adapterPosition
+                    val selected_title = homefeed.items.get(position).title
+                    val selected_address = homefeed.items.get(position).address
+
+                    val intentSelectedStoreShowMap =
+                        Intent(itemView.context, SelectedStoreShowMap::class.java)
+                    intentSelectedStoreShowMap.apply {
+                        this.putExtra("selected_title", selected_title)
+                        this.putExtra("selected_address", selected_address)
+                    }
+                    ContextCompat.startActivity(itemView.context, intentSelectedStoreShowMap, null)
+                    Log.d("셋온클릭한 다음 ", " " + selected_address)
+                }
             }
         }
 
@@ -290,19 +338,27 @@ class RecommendFoodActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            var title = (homefeed.items.get(position).title).replace("</b>", " ")
+            var title = (homefeed.items.get(position).title).replace("</b>", "")
             title = title.replace("<b>", " ")
-            var category = (homefeed.items.get(position).category).replace("</b>", " ")
+            var category = (homefeed.items.get(position).category).replace("</b>", "")
             category = category.replace("<b>", " ")
-            var address = (homefeed.items.get(position).address).replace("</b>", " ")
+            var address = (homefeed.items.get(position).address).replace("</b>", "")
             address = address.replace("<b>", " ")
-            var telephone = (homefeed.items.get(position).telephone).replace("</b>", " ")
+            var telephone = (homefeed.items.get(position).telephone).replace("</b>", "")
             telephone = telephone.replace("<b>", " ")
+
+            Log.d("이름은 잘 들어갔는가", title)
+            Log.d("이름은 잘 들어갔는가", category)
+            Log.d("이름은 잘 들어갔는가", address)
+            Log.d("이름은 잘 들어갔는가", telephone)
+
 
             holder.title.setText(title)
             holder.category.setText(category)
             holder.address.setText(address)
             holder.telephone.setText(telephone)
+
+
         }
     }
 
@@ -319,6 +375,6 @@ data class Item(
     val telephone: String,
     val address: String,
     val roadAddress: String,
-    val mapx: Int,
-    val mapy: Int
+    val mapx: Double,
+    val mapy: Double
 )

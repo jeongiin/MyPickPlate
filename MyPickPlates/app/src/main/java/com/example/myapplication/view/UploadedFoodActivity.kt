@@ -45,6 +45,7 @@ class UploadedFoodActivity : AppCompatActivity() {
 
         // Intent uploaded food activity
         var intentToRecommend = Intent(this, RecommendFoodActivity::class.java)
+        var intentToUpload = Intent(this, UploadFoodActivity::class.java)
         var intentToView = Intent(this, ViewFoodActivity::class.java)
 
 
@@ -70,6 +71,7 @@ class UploadedFoodActivity : AppCompatActivity() {
            var dup = 0
 
            Log.d("이미지 sp in Uploaded", photos.toString())
+
            for (photo in ReadPhotosData()) {
                // 중복 저장 방지를 위한 mode 추가
                if (photo?.uri == imageUri)
@@ -83,9 +85,10 @@ class UploadedFoodActivity : AppCompatActivity() {
                SavePhotoData(photos)
                startActivity(intentToView)
            }
-           else
-               Toast.makeText(this, "이미 존재하는 사진입니다.",Toast.LENGTH_LONG).show()
-
+           else {
+               Toast.makeText(this, "이미 존재하는 사진입니다.", Toast.LENGTH_LONG).show()
+               startActivity(intentToUpload)
+           }
 
            this@UploadedFoodActivity.finish()
        }
