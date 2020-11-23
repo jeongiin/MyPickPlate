@@ -6,11 +6,11 @@
 
 
     <LinearLayout
-
+        android:id="@+id/item_to_show_map"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:background="@drawable/border_layout"
+        android:background="@drawable/click_layout"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="vertical">

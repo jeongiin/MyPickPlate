@@ -2,23 +2,18 @@ package com.example.myapplication.view
 
 import android.Manifest
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.transition.Transition
 import com.example.myapplication.R
 import com.example.myapplication.adapters.ViewFoodAdapter
 import com.example.myapplication.utils.Photo
@@ -26,6 +21,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_view_food.*
 import java.lang.reflect.Type
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class ViewFoodActivity : AppCompatActivity() {
