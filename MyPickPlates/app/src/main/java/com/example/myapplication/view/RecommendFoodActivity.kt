@@ -268,10 +268,10 @@ class RecommendFoodActivity : AppCompatActivity() {
                 Log.d("dataJson :", "kkk" + homefeed)
 
                 var k = 0
-                for ( i in homefeed.items){
+                for (i in homefeed.items) {
                     road_add[k] = i.roadAddress
                     store_name[k] = i.title
-                    k+=1
+                    k += 1
                 }
 
 
