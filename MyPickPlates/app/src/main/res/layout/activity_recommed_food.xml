@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/bt_show_map"
-        android:background="@drawable/ic_btn_add"
+        android:background="@drawable/ic_btn_map"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"

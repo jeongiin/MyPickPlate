@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="350dp"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:background="@color/colorWhite"
         android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/iv_food"
             android:layout_width="300dp"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:background="#000000"
             android:foregroundGravity="center"
             app:layout_constraintBottom_toTopOf="@id/ll_name"
