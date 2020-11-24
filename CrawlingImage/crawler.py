@@ -12,11 +12,11 @@ import time
 2. search key word & name 사전 지정
 3. folder 구성 (search 네임으로 된 폴더와 train, test, val, ect 폴더 필요)
 '''
-search = '부대찌개'
-name = 'budaejjigae' # 저장할 이름
+search = '깐풍기' # 갈비, 김치찌개, 깐풍기, 꿔바로우, 된장찌개, 떡볶이, 마라탕, 볶음밥, 부대찌개, 불고기, 비빔밥, 삼겹살, 순두부찌개, 우동, 유산슬, 잡채, 짜장면, 짬뽕, 청국장, 팔보채
+name = 'kkanpung-gi' # galbi, gimchijjigae, kkanpung-gi, kkwobalou, doenjangjjigae, tteogbokki,  malatang, bokk-eumbab, budaejjigae, bulgogi, bibimbab, samgyeobsal, sundubujjigae, udong, yusanseul, jabchae, jjajangmyeon, jjamppong, cheong-gugjang, palbochae
 url = 'https://www.google.com/search?q='+search+'&sxsrf=ALeKk03IxLUnCXWvf0FhItrtv52T9NRQ3Q:1604817220329&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjsiuOCqvLsAhVSPnAKHRWyA6kQ_AUoAXoECBsQAw&biw=1522&bih=812'
 
-driver = webdriver.Chrome('d:\Downloads\chromedriver_win32 (2)\chromedriver_win32 (3)\chromedriver.exe') #자신의 경로로 바꿔줘야함
+driver = webdriver.Chrome("C:/Users/jeongin/chromedriver_win32 (1)/chromedriver.exe") #자신의 경로로 바꿔줘야함
 # 크롬이 업데이트 되어 존재하던 크롬 드라이버 버전과 일치하지 않는 경우 에러가 발생할 수 있음
 
 driver.get(url)
@@ -30,12 +30,14 @@ body = driver.find_element_by_tag_name('body')  # 스크롤하기 위한 소스
 for vindex in range(20):
     body.send_keys((Keys.END))
     time.sleep(1)
-    if vindex % 6 == 0 :
-        try :
-            driver.find_element_by_xpath("/html/body/div[2]/c-wiz/div[3]/div[1]/div/div/div/div/div[5]/input")
-        except :
-            print("결과 더보기 버튼을 찾을 수 없습니다.")
-            break
+    try :
+        driver.find_element_by_xpath("/html/body/div[2]/c-wiz/div[3]/div[1]/div/div/div/div/div[5]/input").click()
+        print("결과 더보기 버튼을 찾았습니다.")
+    except :
+        print("결과 더보기 버튼을 찾을 수 없습니다.")
+
+
+
 
 body.send_keys(Keys.HOME)  # 홈 키로 최상단
 ##############################################
@@ -64,7 +66,9 @@ for i in img:
 # train : val : test = 6 : 2: 2 로 맞추고자 함
 
 for i in imgurl:
-    urlretrieve(i,"./크롤링 사진/"+ search + "/" + name + str(n) + ".jpg")
+    if (n>400):
+        # 현재 400장의 사진까지는 모았으므로 결과 더보기 버튼을 누른 뒤 사진을 추가적으로 크롤링
+        urlretrieve(i, search + "/" + name + str(n) + ".jpg")
     n+=1
 
 # for i in range(60):
