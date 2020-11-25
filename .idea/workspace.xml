@@ -20,6 +20,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/MyPickPlates" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -41,6 +42,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1014" y="476" key="FileChooserDialogImpl" timestamp="1606278593642">
+      <screen x="0" y="0" width="2467" height="1440" />
+    </state>
+    <state x="1014" y="476" key="FileChooserDialogImpl/0.0.2467.1440@0.0.2467.1440" timestamp="1606278593642" />
     <state x="459" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1606009792120">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
