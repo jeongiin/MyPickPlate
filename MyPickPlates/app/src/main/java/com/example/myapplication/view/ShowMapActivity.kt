@@ -49,8 +49,7 @@ class ShowMapActivity : AppCompatActivity() {
         val mapViewContainer = map_view as ViewGroup
 
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mylocation[0], mylocation[1]), true)
-
-
+        
         val marker = MapPOIItem()
         marker.itemName = "sample"
         marker.tag = 0
