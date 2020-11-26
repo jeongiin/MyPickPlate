@@ -128,6 +128,8 @@ class UploadedFoodActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        var intent = Intent(this, ViewFoodActivity::class.java)
+        startActivity(intent)
         this@UploadedFoodActivity.finish()
     }
 }
