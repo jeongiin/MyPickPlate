@@ -5,14 +5,12 @@
 
 ### 음식 사진만으로 메뉴를 분류하는 인공지능 기술을 활용하여 키보드를 없앤 **맛집 추천 애플리케이션**
 
-<a href='https://ifh.cc/v-kl4Ny2' target='_blank'><img src='https://ifh.cc/g/kl4Ny2.jpg' border='0'></a>
-
 - 내가 찍은 음식 사진, 내가 먹고 싶은 음식 사진으로 음식을 선택만 하면 자동 분류 !
 - 자동으로 분류된 음식 사진을 애플리케이션 내에 저장 가능 !
 - 내 위치를 기반으로 맛집 리스트 추천 가능 !
 - 내 위치와 맛집 위치를 지도로 확인 가능 !
 
-<a href='https://ifh.cc/v-tz5xO9' target='_blank'><img src='https://ifh.cc/g/tz5xO9.jpg' border='0'></a>
+<a href='https://ifh.cc/v-kl4Ny2' target='_blank'><img src='https://ifh.cc/g/kl4Ny2.jpg' border='0'></a>
 
 ### 주요 기능
 
