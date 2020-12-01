@@ -39,19 +39,25 @@
   * Hyperparameter tuning
   * 20개 class에 대한 모델 학습 및 테스트 결과
   * 100개 class에 대한 모델 학습 및 테스트 결과
+  
 <br> 
+
 ### 프론트엔드
 - 안드로이드
   * 언어: Kotlin
   * 사용 기술: Okhttp, RecyclerView, Json
+  
 <br>
+
 ### 버전관리
 - Git
+
 <br>
 ### 이슈 및 협업 일정 관리
 - Git
 
 <br><br>
+
 ## 팀원
 
 🙍‍♀️이정인  
@@ -59,7 +65,9 @@
 - 안드로이드
 - UI 디자인 설계
 - 모델 개발
+
 <br>
+
 🙍‍♀️염지현  
 [@yeomja99](https://github.com/yeomja99)
 - 안드로이드
