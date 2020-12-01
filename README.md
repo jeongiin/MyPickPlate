@@ -37,8 +37,8 @@
 - Network
   * MobileNet V2, EfficientNet B0, InceptionNet V3 의 Pre-trained model을 사용한 Transfer learning
   * Hyperparameter tuning
-  * 20개 class에 대한 모델 학습 및 테스트 결과
-  * 100개 class에 대한 모델 학습 및 테스트 결과
+  * [20개 class에 대한 모델 학습 진행 과정](https://github.com/jeongiin/MyPickPlate/blob/dev/KoreaFoodClassification/TransferLearning_MobileNetV2_final_data20.ipynb)
+  * [100개 class에 대한 모델 학습 진행 과정](https://github.com/jeongiin/MyPickPlate/blob/dev/KoreaFoodClassification/TransferLearning_MobileNetV2_final_data100.ipynb)
   
 <br> 
 
