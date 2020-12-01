@@ -1,8 +1,14 @@
 package com.example.myapplication.view
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.media.tv.TvContract.Programs.Genres.encode
+import android.net.Uri.encode
+import android.os.Build
 import android.os.Bundle
+import android.util.Base64.*
 import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +27,12 @@ class ShowMapActivity : AppCompatActivity() {
     private var latlong = Array<Double>(2, { 0.0 })
     private var store_name = Array<String>(5, { "1" })
     private var store_latlong = Array<Array<Double>>(5, { latlong })
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_map)
+
 
         mylocation = intent.getDoubleArrayExtra("lat_long")
         road_add = intent.getStringArrayExtra("road_add")
@@ -49,7 +57,7 @@ class ShowMapActivity : AppCompatActivity() {
         val mapViewContainer = map_view as ViewGroup
 
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mylocation[0], mylocation[1]), true)
-        
+
         val marker = MapPOIItem()
         marker.itemName = "sample"
         marker.tag = 0
@@ -59,11 +67,12 @@ class ShowMapActivity : AppCompatActivity() {
         mapView.addPOIItem(marker)
 
         var store_marker = arrayOf(marker, marker, marker, marker, marker)
-        for (i in 0 until 5){
+        for (i in 0 until 5) {
             store_marker[i].itemName = store_name[i]
             store_marker[i].itemName = store_name[i]
             store_marker[i].tag = 0
-            store_marker[i].mapPoint = MapPoint.mapPointWithGeoCoord(store_latlong[i][0], store_latlong[i][1])
+            store_marker[i].mapPoint =
+                MapPoint.mapPointWithGeoCoord(store_latlong[i][0], store_latlong[i][1])
             store_marker[i].markerType = MapPOIItem.MarkerType.RedPin
             store_marker[i].selectedMarkerType = MapPOIItem.MarkerType.YellowPin
             mapView.addPOIItem(store_marker[i])
