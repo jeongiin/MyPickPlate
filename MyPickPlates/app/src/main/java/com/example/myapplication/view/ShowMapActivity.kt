@@ -21,6 +21,8 @@ import java.io.IOException
 import java.util.*
 
 
+
+
 class ShowMapActivity : AppCompatActivity() {
     private var mylocation = DoubleArray(2, { 0.0 })
     private var road_add = Array<String>(5, { "1" })
