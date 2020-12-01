@@ -10,7 +10,7 @@
 - 자동으로 분류된 음식 사진을 애플리케이션 내에 저장 가능 !
 - 내 위치를 기반으로 맛집 리스트 추천 가능 !
 - 내 위치와 맛집 위치를 지도로 확인 가능 !
-
+<br>
 <a href='https://ifh.cc/v-kl4Ny2' target='_blank'><img src='https://ifh.cc/g/kl4Ny2.jpg' border='0'></a>
 
 ### 주요 기능
@@ -21,7 +21,7 @@
  4. 저장한 음식 사진 모아보기
  5. 분류한 음식, 내 위치 기반 맛집 추천하기
  6. 내 위치와 맛집 위치 지도로 보여주기
----
+
 <br><br>
 ## Process
 <a href='https://ifh.cc/v-PP09nv' target='_blank'><img src='https://ifh.cc/g/PP09nv.jpg' border='0'></a>
@@ -39,17 +39,18 @@
   * Hyperparameter tuning
   * 20개 class에 대한 모델 학습 및 테스트 결과
   * 100개 class에 대한 모델 학습 및 테스트 결과
-  
+<br> 
 ### 프론트엔드
 - 안드로이드
   * 언어: Kotlin
   * 사용 기술: Okhttp, RecyclerView, Json
-
+<br>
 ### 버전관리
 - Git
+<br>
 ### 이슈 및 협업 일정 관리
 - Git
----
+
 <br><br>
 ## 팀원
 
@@ -58,7 +59,7 @@
 - 안드로이드
 - UI 디자인 설계
 - 모델 개발
-
+<br>
 🙍‍♀️염지현  
 [@yeomja99](https://github.com/yeomja99)
 - 안드로이드
