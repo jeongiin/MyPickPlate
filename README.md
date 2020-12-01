@@ -30,7 +30,7 @@
 - 텐스플로우, 케라스, 텐서플로우 라이트
   * 언어 : Python
   
-- 데이터
+- [데이터](https://github.com/jeongiin/MyPickPlate/blob/dev/FoodClass/food_class.xlsx)
   * 한국 갤럽 등 한국인, 외국인에게 인기있는 음식 조사
   * 음식과 관련 없는 사진, 글씨가 포함된 사진, 음식 사이즈가 너무 작은 사진, 너무 많은 음식들과 함께 찍힌 사진 등 적합하지 않은 데이터를 삭제
   
