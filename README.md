@@ -1,6 +1,7 @@
 # **오늘의 식사 My Pick Plate**
 <a href='https://ifh.cc/v-Y9oYtJ' target='_blank'><img src='https://ifh.cc/g/Y9oYtJ.jpg' width="300" height="300" border='0'></a>
 ---
+<br><br>
 ## 소개글
 
 ### 음식 사진만으로 메뉴를 분류하는 인공지능 기술을 활용하여 키보드를 없앤 **맛집 추천 애플리케이션**
@@ -21,6 +22,7 @@
  5. 분류한 음식, 내 위치 기반 맛집 추천하기
  6. 내 위치와 맛집 위치 지도로 보여주기
 ---
+<br><br>
 ## Process
 <a href='https://ifh.cc/v-PP09nv' target='_blank'><img src='https://ifh.cc/g/PP09nv.jpg' border='0'></a>
   
@@ -47,7 +49,8 @@
 - Git
 ### 이슈 및 협업 일정 관리
 - Git
-
+---
+<br><br>
 ## 팀원
 
 🙍‍♀️이정인  
