@@ -22,11 +22,7 @@
  6. 내 위치와 맛집 위치 지도로 보여주기
 ---
 ## Process
-
-### 프론트엔드
-- 안드로이드
-  * 언어: Kotlin
-  * 사용 기술: Okhttp, RecyclerView, Json
+<a href='https://ifh.cc/v-PP09nv' target='_blank'><img src='https://ifh.cc/g/PP09nv.jpg' border='0'></a>
   
 ### 모델 개발
 - 텐스플로우, 케라스, 텐서플로우 라이트
@@ -35,13 +31,17 @@
 - 데이터
   * 한국 갤럽 등 한국인, 외국인에게 인기있는 음식 조사
   * 음식과 관련 없는 사진, 글씨가 포함된 사진, 음식 사이즈가 너무 작은 사진, 너무 많은 음식들과 함께 찍힌 사진 등 적합하지 않은 데이터를 삭제
-  * 
   
 - Network
   * MobileNet V2, EfficientNet B0, InceptionNet V3 의 Pre-trained model을 사용한 Transfer learning
   * Hyperparameter tuning
   * 20개 class에 대한 모델 학습 및 테스트 결과
   * 100개 class에 대한 모델 학습 및 테스트 결과
+  
+### 프론트엔드
+- 안드로이드
+  * 언어: Kotlin
+  * 사용 기술: Okhttp, RecyclerView, Json
 
 ### 버전관리
 - Git
