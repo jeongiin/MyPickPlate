@@ -32,7 +32,8 @@
   
 - [데이터](https://github.com/jeongiin/MyPickPlate/blob/dev/FoodClass/food_class.xlsx)
   * 한국 갤럽 등 한국인, 외국인에게 인기있는 음식 조사
-  * 음식과 관련 없는 사진, 글씨가 포함된 사진, 음식 사이즈가 너무 작은 사진, 너무 많은 음식들과 함께 찍힌 사진 등 적합하지 않은 데이터를 삭제
+  * 크롤링 코드를 통해 구글에서 음식을 키워드로 각각 1200장 이상의 이미지를 모은 후 전처리를 통해 300~500장의 이미지를 선정
+  * 전처리 과정에서 음식과 관련 없는 사진, 글씨가 포함된 사진, 음식 사이즈가 너무 작은 사진, 너무 많은 음식들과 함께 찍힌 사진 등 적합하지 않은 데이터를 삭제
   
 - Network
   * MobileNet V2, EfficientNet B0, InceptionNet V3 의 Pre-trained model을 사용한 Transfer learning
