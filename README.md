@@ -58,12 +58,15 @@
 <br>
 
 ### Usage
-- 0) 아직 구글 플레이 스토어 등록 전이라 원하시는 분들은 아래 과정을 진행하시면 됩니다! 전시를 했다면 애뮬레이터로 직접 이용 가능하셨을텐데 아쉽습니다.
-- 1) Android Studio 설치(4.0.1)
-- 2) 갤럭시 개발자 모드 설정
-- 3) github clone
-- 4) API Developer 용 key 설정
-- 5) Android Studio 애뮬레이터 실행
+0) 아직 구글 플레이 스토어 등록 전이라 원하시는 분들은 아래 과정을 진행하시면 됩니다! 전시를 했다면 애뮬레이터로 직접 이용 가능하셨을텐데 아쉽습니다.
+1) Android Studio 설치(4.0.1)
+2) 갤럭시 개발자 모드 설정
+3) github clone
+4) API Developer 용 key 설정
+5) Android Studio 애뮬레이터 실행
+
+<br> 
+
 
 ### 버전관리
 - Git 0.9
