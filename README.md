@@ -58,11 +58,13 @@
 <br>
 
 ### Usage
-- 아직 구글 플레이 스토어 등록 전이라 직접 실행을 원하시는 분들은 아래 과정을 진행하시면 됩니다! 전시를 했다면 애뮬레이터로 직접 이용 가능하셨을텐데 아쉽습니다.
+- 아직 구글 플레이 스토어 등록 전이라 직접 실행을 원하시는 분들은 아래 과정을 진행하시면 됩니다!<br>
+ 전시를 했다면 애뮬레이터로 직접 이용 가능하셨을텐데 아쉽습니다.
 1) Android Studio 설치(4.0.1)
-2) 갤럭시 개발자 모드 설정
+2) [갤럭시 개발자 모드 설정](https://m.blog.naver.com/meyouhappy/221928917024)
 3) github clone
-4) API Developer 용 key 설정
+4) [API Developer 용 key 설정](https://developers.naver.com/docs/search/local/)
+  - pakage name은 코드 참조하시면 됩니다.
 5) Android Studio 애뮬레이터 실행
 
 <br> 
