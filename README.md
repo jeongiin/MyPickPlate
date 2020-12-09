@@ -19,7 +19,7 @@
  2. 불러온 음식 사진 저장 및 삭제하기
  3. 음식 사진으로 음식 분류하기
  4. 저장한 음식 사진 모아보기
- 5. 분류한 음식, 내 위치 기반 맛집 추천하기
+ 5. 분류한 음식, 내 위치 기반 맛집 추천하기   
  6. 내 위치와 맛집 위치 지도로 보여주기
 
 <br><br>
@@ -38,6 +38,8 @@
 - Network
   * MobileNet V2, EfficientNet B0, InceptionNet V3 의 Pre-trained model을 사용한 Transfer learning
   * Hyperparameter tuning
+  * [EfficientNet 전이학습 및 LOSS 그래프](https://github.com/jeongiin/MyPickPlate/blob/main/KoreaFoodClassification/TransferLearning_Efficient00.ipynb)
+  * [InceptionNet V3 전이학습 및 LOSS 그래프](https://github.com/jeongiin/MyPickPlate/blob/main/KoreaFoodClassification/TransferLearning_InceptionV3.ipynb)
   * [20개 class에 대한 모델 학습 진행 과정](https://github.com/jeongiin/MyPickPlate/blob/dev/KoreaFoodClassification/TransferLearning_MobileNetV2_final_data20.ipynb)
   * [100개 class에 대한 모델 학습 진행 과정](https://github.com/jeongiin/MyPickPlate/blob/dev/KoreaFoodClassification/TransferLearning_MobileNetV2_final_data100.ipynb)
   
@@ -48,10 +50,23 @@
   * 언어: Kotlin
   * 사용 기술: Okhttp, RecyclerView, Json
   
+- 핵심 기능
+  * [음식 분류](https://github.com/jeongiin/MyPickPlate/blob/main/MyPickPlates/app/src/main/java/com/example/myapplication/view/UploadFoodActivity.kt)
+  * [맛집 추천](https://github.com/jeongiin/MyPickPlate/blob/main/MyPickPlates/app/src/main/java/com/example/myapplication/view/RecommendFoodActivity.kt)
+   - API : [네이버 지역 API](https://developers.naver.com/docs/search/local/)
+   
 <br>
 
+### Usage
+- 0) 아직 구글 플레이 스토어 등록 전이라 원하시는 분들은 아래 과정을 진행하시면 됩니다! 전시를 했다면 애뮬레이터로 직접 이용 가능하셨을텐데 아쉽습니다.
+- 1) Android Studio 설치(4.0.1)
+- 2) 갤럭시 개발자 모드 설정
+- 3) github clone
+- 4) API Developer 용 key 설정
+- 5) Android Studio 애뮬레이터 실행
+
 ### 버전관리
-- Git
+- Git 0.9
 
 <br>
 
